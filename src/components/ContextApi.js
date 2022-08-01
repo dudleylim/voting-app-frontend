@@ -48,8 +48,7 @@ export const ContextApi = ({children}) => {
             setUser(userInfo);
         } else {
             console.log('Response status of login: ', response.status);
-            setAccessToken('');
-            setRefreshToken('');
+            logout();
         }
 
         navigate('/');
@@ -74,7 +73,7 @@ export const ContextApi = ({children}) => {
         setUser({});
         setAccessToken('');
         setRefreshToken('');
-        localStorage.clear();
+        localStorage.removeItem('token');
     }
 
     const contextData = {
@@ -85,6 +84,52 @@ export const ContextApi = ({children}) => {
         handleSubmitSignup,
         logout
     }
+
+    useEffect(() => {
+        const updateToken = async () => {
+            const localRefreshToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).refresh : '';
+            if (localRefreshToken === '') {
+                console.log('no token to refresh');
+                console.log(localRefreshToken);
+            } else {
+                console.log(localRefreshToken);
+                const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'refresh': localRefreshToken
+                    })
+                });
+                const data = await response.json();
+                const userInfo = jwt_decode(data.access);
+    
+                if (response.status === 200) {
+                    // save in local storage
+                    localStorage.setItem('token', JSON.stringify(data));
+    
+                    // set states
+                    setAccessToken(data.access);
+                    setRefreshToken(data.refresh);
+                    setUser(userInfo);
+    
+                    console.log('Token updated');
+                } else {
+                    console.log('Response status of update token: ', response.status);
+                    logout();
+                }
+            }
+        }
+        
+        updateToken();
+
+        const interval = setInterval(() => {
+            updateToken();
+        }, 20000)
+
+        return () => clearInterval(interval)
+    }, [])
 
     return (
         <Context.Provider value={contextData}>
