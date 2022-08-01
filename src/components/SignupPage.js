@@ -2,13 +2,13 @@ import React from 'react'
 import { useContext } from 'react'
 import Context from './ContextApi'
 
-const LoginPage = () => {
+const SignupPage = () => {
     const contextApi = useContext(Context);
 
     return (
         <section className="main-content">
-            <h3>Login</h3>
-            <form onSubmit={contextApi.handleSubmitLogin}>
+            <h3>Signup</h3>
+            <form onSubmit={contextApi.handleSubmitSignup}>
                 <input type="text" name="username" id="username" />
                 <input type="password" name="password" id="password" />
                 <button type="submit">Submit</button>
@@ -17,4 +17,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default SignupPage

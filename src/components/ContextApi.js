@@ -38,7 +38,7 @@ export const ContextApi = ({children}) => {
             // console.log(data.access);
             // console.log(data.refresh);
             // console.log(userInfo)
-            
+
             // save in local storage
             localStorage.setItem('token', JSON.stringify(data));
 
@@ -55,17 +55,35 @@ export const ContextApi = ({children}) => {
         navigate('/');
     }
 
-    useEffect(() => {
-        console.log(user);
-        console.log(accessToken);
-        console.log(refreshToken);
-    }, [])
+    const handleSubmitSignup = async (e) => {
+        e.preventDefault();
+        await fetch('http://127.0.0.1:8000/api/createUser/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'username': e.target.username.value,
+                'password': e.target.password.value
+            })
+        });
+        navigate('/login');
+    }
+
+    const logout = () => {
+        setUser({});
+        setAccessToken('');
+        setRefreshToken('');
+        localStorage.clear();
+    }
 
     const contextData = {
         user,
         accessToken,
         refreshToken,
         handleSubmitLogin,
+        handleSubmitSignup,
+        logout
     }
 
     return (
