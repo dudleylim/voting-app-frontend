@@ -16,6 +16,8 @@ export const ContextApi = ({children}) => {
     const [refreshToken, setRefreshToken] = useState(
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).refresh : ''
     );
+    const [candidates, setCandidates] = useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmitLogin = async (e) => {
@@ -80,60 +82,83 @@ export const ContextApi = ({children}) => {
         user,
         accessToken,
         refreshToken,
+        candidates,
         handleSubmitLogin,
         handleSubmitSignup,
-        logout
+        logout,
     }
 
     useEffect(() => {
+        const getCandidates = async () => {
+            const response = await fetch('http://127.0.0.1:8000/api/candidates/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            setCandidates(data);
+        }
+        getCandidates();
+    }, [])
+
+    useEffect(() => {
         const updateToken = async () => {
-            const localRefreshToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).refresh : '';
-            if (localRefreshToken === '') {
-                console.log('no token to refresh');
-                console.log(localRefreshToken);
-            } else {
-                console.log(localRefreshToken);
-                const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'refresh': localRefreshToken
-                    })
-                });
-                const data = await response.json();
-                const userInfo = jwt_decode(data.access);
-    
-                if (response.status === 200) {
-                    // save in local storage
-                    localStorage.setItem('token', JSON.stringify(data));
-    
-                    // set states
-                    setAccessToken(data.access);
-                    setRefreshToken(data.refresh);
-                    setUser(userInfo);
-    
-                    console.log('Token updated');
+            if (!loading) {
+                setLoading(true)
+                const localRefreshToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).refresh : '';
+                if (localRefreshToken === '') {
+                    console.log('no token to refresh');
+                    console.log(localRefreshToken);
                 } else {
-                    console.log('Response status of update token: ', response.status);
-                    logout();
+                    console.log(localRefreshToken);
+                    const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            'refresh': localRefreshToken
+                        })
+                    });
+                    const data = await response.json();
+                    const userInfo = jwt_decode(data.access);
+                
+                    if (response.status === 200) {
+                        // save in local storage
+                        localStorage.setItem('token', JSON.stringify(data));
+                    
+                        // set states
+                        setAccessToken(data.access);
+                        setRefreshToken(data.refresh);
+                        setUser(userInfo);
+                    
+                        console.log('Token updated');
+                    } else {
+                        console.log('Response status of update token: ', response.status);
+                        logout();
+                    }
                 }
             }
+            setLoading(false);
         }
         
-        updateToken();
+        // the purpose of this if statement is to prevent updateToken from being invoked when the page is loading
+        // this means when the page is refreshed while it is loading, it wont run updateToken() twice and causing an error
+        // if (!loading) {
+        //     updateToken();
+        // }
 
         const interval = setInterval(() => {
             updateToken();
-        }, 20000)
+        }, 60000)
 
         return () => clearInterval(interval)
     }, [])
 
     return (
         <Context.Provider value={contextData}>
-            {children}
+            {loading ? <h1>Loading...</h1> : children}
         </Context.Provider>
     )
 }

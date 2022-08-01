@@ -13,6 +13,7 @@ const Header = () => {
                     {contextApi.accessToken ?  
                     <>
                         <li><Link to='/'>Home</Link></li>
+                        <li><Link to='/vote'>Vote</Link></li>
                         <li><button onClick={contextApi.logout}>Logout</button></li>
                     </>
                     :

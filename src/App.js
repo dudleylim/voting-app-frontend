@@ -8,6 +8,7 @@ import Header from './components/Header';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
+import VotePage from './components/VotePage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <main>
         <Routes>
           <Route path='/' exact element={<PrivateRoute><HomePage /></PrivateRoute>} />
+          <Route path='/vote' element={<PrivateRoute><VotePage /></PrivateRoute>}/>
           <Route path='/login' element={<LoginPage />}/>
           <Route path='/signup' element={<SignupPage />}/>
         </Routes>
