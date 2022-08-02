@@ -109,9 +109,9 @@ export const ContextApi = ({children}) => {
                 const localRefreshToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).refresh : '';
                 if (localRefreshToken === '') {
                     console.log('no token to refresh');
-                    console.log(localRefreshToken);
+                    // console.log(localRefreshToken);
                 } else {
-                    console.log(localRefreshToken);
+                    // console.log(localRefreshToken);
                     const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
                         method: 'POST',
                         headers: {
@@ -158,7 +158,7 @@ export const ContextApi = ({children}) => {
 
     return (
         <Context.Provider value={contextData}>
-            {loading ? <h1>Loading...</h1> : children}
+            {children}
         </Context.Provider>
     )
 }

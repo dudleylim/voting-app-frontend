@@ -15,6 +15,7 @@ function App() {
   return (
     <BrowserRouter>
     <ContextApi>
+      <div className="container">
       <Header />
       <main>
         <Routes>
@@ -24,6 +25,7 @@ function App() {
           <Route path='/signup' element={<SignupPage />}/>
         </Routes>
       </main>
+      </div>
     </ContextApi>
     </BrowserRouter>
   );

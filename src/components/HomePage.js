@@ -23,12 +23,8 @@ const HomePage = () => {
     }, [])
 
     return (
-        <main>
-            <h1>home</h1>
-            <section className='token-details'>
-                <p>Access token: {contextApi.accessToken}</p>
-                <p>Refresh token: {contextApi.refreshToken}</p>
-            </section>
+        <>
+            <h1 className='main-heading'>Vote Count</h1>
             <section className="main-content">
                 <ul>
                     {contextApi.candidates.map((candidate) => {
@@ -36,7 +32,7 @@ const HomePage = () => {
                     })}
                 </ul>
             </section>
-        </main>
+        </>
     )
 }
 

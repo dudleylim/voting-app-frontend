@@ -7,22 +7,20 @@ const Header = () => {
     const contextApi = useContext(Context);
 
     return (
-        <header>
-            <nav>
-                <ul>
-                    {contextApi.accessToken ?  
-                    <>
-                        <li><Link to='/'>Home</Link></li>
-                        <li><Link to='/vote'>Vote</Link></li>
-                        <li><button onClick={contextApi.logout}>Logout</button></li>
-                    </>
-                    :
-                    <>
-                        <li><Link to='/login'>Login</Link></li>
-                        <li><Link to='/signup'>Signup</Link></li>
-                    </>
-                    }
-                </ul>
+        <header className='header'>
+            <nav className='nav'>
+                {contextApi.accessToken ?  
+                <>
+                    <Link to='/' className='nav-link'>Home</Link>
+                    <Link to='/vote' className='nav-link'>Vote</Link>
+                    <button onClick={contextApi.logout} className='nav-logout'>Logout</button>
+                </>
+                :
+                <>
+                    <Link to='/login' className='nav-link'>Login</Link>
+                    <Link to='/signup' className='nav-link'>Signup</Link>
+                </>
+                }
             </nav>
         </header>
     )

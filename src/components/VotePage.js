@@ -22,6 +22,7 @@ const VotePage = () => {
             })
         });
         navigate('/');
+        // console.log(e.target.candidate.value);
     }
 
     const deleteVote = async (id) => {
@@ -48,7 +49,7 @@ const VotePage = () => {
                 }
             });
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             setVotes(data);
         }
 
@@ -56,25 +57,28 @@ const VotePage = () => {
     }, [])
 
     return (
+        <>
+        <h1 className='main-heading'>Your Vote</h1>
         <section className="main-content">
+            {votes.length === 0 ? 
+            <form onSubmit={submitVote} className='vote-form'>
+                {contextApi.candidates.map((candidate) => {
+                    return <label key={candidate.id} htmlFor={candidate.name} className='vote-form-candidate'>
+                        <input type="radio" name='candidate' value={candidate.id}/>
+                        {candidate.name}
+                    </label>
+                })}
+                <button type="submit" className='submit-button'>Submit</button>
+            </form>
+            :
             <ul>
                 {votes.map((vote) => {
-                    return <li key={vote.id}>{vote.user_name} {vote.candidate_name} <button onClick={() => {deleteVote(vote.id)}}>Delete</button></li>
+                    return <li key={vote.id}>Voted for: {vote.candidate_name} <button onClick={() => {deleteVote(vote.id)}} className='vote-delete-button'>Delete</button></li>
                 })}
             </ul>
-
-            {votes.length === 0 && 
-            <form onSubmit={submitVote}>
-            <select name="candidate" id="">
-                {contextApi.candidates.map((candidate) => {
-                    return <option key={candidate.id} value={candidate.id}>{candidate.name}</option>
-                })}
-            </select>
-            <button type="submit">Submit</button>
-            </form>
             }
-            
         </section>
+        </>
     )
 }
 
