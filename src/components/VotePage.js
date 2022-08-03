@@ -10,7 +10,7 @@ const VotePage = () => {
 
     const submitVote = async (e) => {
         e.preventDefault();
-        await fetch('http://127.0.0.1:8000/api/votes/', {
+        await fetch('https://dudley-voting-app.herokuapp.com/api/votes/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const VotePage = () => {
     }
 
     const deleteVote = async (id) => {
-        await fetch('http://127.0.0.1:8000/api/votes/', {
+        await fetch('https://dudley-voting-app.herokuapp.com/api/votes/', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ const VotePage = () => {
 
     useEffect(() => {
         const getVotes = async () => {
-            const response = await fetch('http://127.0.0.1:8000/api/votes/', {
+            const response = await fetch('https://dudley-voting-app.herokuapp.com/api/votes/', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

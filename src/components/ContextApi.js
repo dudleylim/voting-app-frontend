@@ -22,7 +22,7 @@ export const ContextApi = ({children}) => {
 
     const handleSubmitLogin = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://127.0.0.1:8000/api/token/', {
+        const response = await fetch('https://dudley-voting-app.herokuapp.com/api/token/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -58,7 +58,7 @@ export const ContextApi = ({children}) => {
 
     const handleSubmitSignup = async (e) => {
         e.preventDefault();
-        await fetch('http://127.0.0.1:8000/api/createUser/', {
+        await fetch('https://dudley-voting-app.herokuapp.com/api/createUser/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ export const ContextApi = ({children}) => {
 
     useEffect(() => {
         const getCandidates = async () => {
-            const response = await fetch('http://127.0.0.1:8000/api/candidates/', {
+            const response = await fetch('https://dudley-voting-app.herokuapp.com/api/candidates/', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -112,7 +112,7 @@ export const ContextApi = ({children}) => {
                     // console.log(localRefreshToken);
                 } else {
                     // console.log(localRefreshToken);
-                    const response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+                    const response = await fetch('https://dudley-voting-app.herokuapp.com/api/token/refresh/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'

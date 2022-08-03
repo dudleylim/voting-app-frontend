@@ -8,7 +8,7 @@ const HomePage = () => {
 
     useEffect(() => {
         const getVotesAll = async () => {
-            const response = await fetch('http://127.0.0.1:8000/api/votes/all/', {
+            const response = await fetch('https://dudley-voting-app.herokuapp.com/api/votes/all/', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
