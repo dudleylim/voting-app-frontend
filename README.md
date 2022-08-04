@@ -1,5 +1,7 @@
 ## Basic voting app
 
+### Deployed ver.: https://dudley-voting-app.netlify.app/
+
 Can signup for account
 
 Can login
@@ -14,14 +16,12 @@ carousel candidates display
 
 basic form validation
 
-    - error msg on wrong login
+- error msg on wrong login
 
-    - error msg on existing username on signup
+- error msg on existing username on signup
 
-    - error msg on blank username/password on signup
+- error msg on blank username/password on signup
 
 responsive design for thin width displays
 
 loading component when fetching or running async functions
-
-fix styling for other browsers (works currently on edge, vote form doesnt work on chrome, idk on other browsers)
