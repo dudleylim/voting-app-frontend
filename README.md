@@ -1,3 +1,7 @@
+# UPDATE
+Back end does not work currently since heroku shut down their free services since November 28, 2022
+Will work on switching to a different service provider for the python backend
+
 ## Basic voting app
 
 ### Deployed ver.: https://dudley-voting-app.netlify.app/
